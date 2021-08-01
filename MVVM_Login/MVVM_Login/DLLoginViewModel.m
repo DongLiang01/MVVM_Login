@@ -19,27 +19,6 @@
 
 -(void)setup{
     
-    @weakify(self)
-    self.loginCommond = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-        @strongify(self)
-        self.model = input;
-        [self.ceshiButton setTitle:self.model.name forState:UIControlStateNormal];
-        return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
-            return nil;
-        }];
-    }];
-    
-    self.loginCommond2 = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
-        @strongify(self)
-        ///第二个页面进行数据处理
-        self.dataArray = @[@"你好",@"狗狗币",@"要",@"涨到",@"1美元"];
-        return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
-            [subscriber sendNext:self.dataArray];
-            [subscriber sendCompleted];
-            return nil;
-        }];
-    }];
-    
 }
 
 
@@ -51,7 +30,7 @@
     if (self.passWord.length <= 0) {
         NSLog(@"请输入密码");
     }
-    success(@"登录成功");
+    success(@{@"username":_userName,@"password":_passWord});
 }
 
 -(void)setLoginButtonValid{

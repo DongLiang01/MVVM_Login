@@ -7,14 +7,11 @@
 //
 
 #import "RACLoginVM.h"
-#import "RACLoginVM+ceshi.h"
 
 @implementation RACLoginVM
 
 -(instancetype)init{
     if (self = [super init]) {
-        
-        self.phone = @"124";
         
         [RACObserve(self, userName) subscribeNext:^(id  _Nullable x) {
 //            NSLog(@"用户明发生了变化%@",x);
@@ -36,7 +33,7 @@
         }];
         self.loginRequestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
             return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
-                ///放登录请求
+                ///登录请求
                 [subscriber sendNext:@"登录成功了"];
                 [subscriber sendCompleted];
                 return nil;

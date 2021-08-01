@@ -29,7 +29,13 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = UIColor.orangeColor;
-    //创建界面元素
+    [self setUpUI];
+    ///观察者观察viewModel的按钮状态属性
+    [self.loginViewModel addObserver:self forKeyPath:@"validLogin" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
+}
+
+///创建界面元素
+-(void)setUpUI{
     UITextField *userNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, 150, 300, 30)];
     userNameTextField.borderStyle = UITextBorderStyleRoundedRect;
     userNameTextField.placeholder = @"请输入用户名…";
@@ -56,16 +62,13 @@
     [[loginButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
         ///在loginViewModel中进行登录操作
         [self.loginViewModel loginSuccess:^(id  _Nonnull json) {
-            NSLog(@"%@",json);
+            NSLog(@"登录成功%@",json);
         } failure:^(NSError * _Nonnull error) {
             NSLog(@"登录失败");
         }];
     }];
     [self.view addSubview:loginButton];
     self.loginB = loginButton;
-        
-    ///观察者观察viewModel的按钮状态属性
-    [self.loginViewModel addObserver:self forKeyPath:@"validLogin" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
